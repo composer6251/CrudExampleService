@@ -3,6 +3,7 @@ package com.securegive.crudexample.service;
 
 import com.securegive.crudexample.data.MockUsersData;
 import com.securegive.crudexample.data.UserEntity;
+import com.securegive.crudexample.dto.UserDTO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -84,13 +85,15 @@ public class CrudExampleServiceTest {
 
     @Test
     public void updateUserDoesNotAlterListSize(){
-        int listSizeBeforeUpdate = crudExampleService.getAllUsers().size();
+        UserDTO userToUpdate = new UserDTO(3, "Updated First Name", "Updated Last Name", "Updated Address");
 
-        Optional<UserEntity> updateUser = crudExampleService.updateUser(new UserEntity(3, "test", "user3", "updated address"));
+        crudExampleService.updateUser(userToUpdate);
 
-        int listSizeAfterUpdate = crudExampleService.getAllUsers().size();
+        Optional<UserEntity> updatedUser = crudExampleService.getUserById(userToUpdate.getId());
 
-        Assert.assertEquals(listSizeBeforeUpdate, listSizeAfterUpdate);
+        Assert.assertEquals(userToUpdate.getFirstName(), updatedUser.get().getFirstName());
+        Assert.assertEquals(userToUpdate.getLastName(), updatedUser.get().getLastName());
+        Assert.assertEquals(userToUpdate.getAddress(), updatedUser.get().getAddress());
     }
 
 

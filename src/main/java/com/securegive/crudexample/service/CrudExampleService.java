@@ -2,6 +2,7 @@ package com.securegive.crudexample.service;
 
 import com.securegive.crudexample.data.MockUsersData;
 import com.securegive.crudexample.data.UserEntity;
+import com.securegive.crudexample.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,32 +53,35 @@ public class CrudExampleService {
         return "User not found to delete";
     }
 
-    public Optional<UserEntity> updateUser(UserEntity updatedUser){
+    public String updateUser(UserDTO updatedUser){
 
-        Optional<UserEntity> userToUpdate = getUserById(updatedUser.getId());
-        Optional<UserEntity> fetchedUser = getAllUsers().stream()
-                .filter(user -> user.getId() == updatedUser.getId())
-                .findFirst();
-      //  mockUsersData.getAllUsers().replaceAll(UnaryOperator(userToUpdate));
 
-        return userToUpdate;
+        mockUsersData.getAllUsers().forEach(user -> {
+            if(user.getId() == updatedUser.getId()){
+                user.setFirstName(updatedUser.getFirstName());
+                user.setLastName(updatedUser.getLastName());
+                user.setAddress(updatedUser.getAddress());
+            }
+        });
+
+        return "Updated user " + updatedUser.getFirstName() + " " + updatedUser.getLastName();
     }
 
-    public Optional<UserEntity> updateUserFirstName(int id, String firstName){
-
-        Optional<UserEntity> userToUpdate = getUserById(id);
-
-        userToUpdate.get().setFirstName(firstName);
-
-        return userToUpdate;
-    }
-
-    public Optional<UserEntity> updateUserLastName(int id, String lastName){
-
-        Optional<UserEntity> userToUpdate = getUserById(id);
-
-        userToUpdate.get().setLastName(lastName);
-
-        return userToUpdate;
-    }
+//    public Optional<UserEntity> updateUserFirstName(int id, String firstName){
+//
+//        Optional<UserEntity> userToUpdate = getUserById(id);
+//
+//        userToUpdate.get().setFirstName(firstName);
+//
+//        return userToUpdate;
+//    }
+//
+//    public Optional<UserEntity> updateUserLastName(int id, String lastName){
+//
+//        Optional<UserEntity> userToUpdate = getUserById(id);
+//
+//        userToUpdate.get().setLastName(lastName);
+//
+//        return userToUpdate;
+//    }
 }
