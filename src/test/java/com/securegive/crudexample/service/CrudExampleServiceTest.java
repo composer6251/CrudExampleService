@@ -6,7 +6,6 @@ import com.securegive.crudexample.data.UserEntity;
 import com.securegive.crudexample.dto.UserDTO;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.Order;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
@@ -108,7 +107,6 @@ public class CrudExampleServiceTest {
     }
 
     @Test
-    @Order(11)
     public void createUserVerify(){
         UserDTO userToCreate = new UserDTO(5, "Created First Name", "Created Last Name", "Created Address");
 
